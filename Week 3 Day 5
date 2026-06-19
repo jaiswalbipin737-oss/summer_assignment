@@ -1,0 +1,66 @@
+// All solution of week 3 day 5
+// implement queue using stack
+class solution {
+    Stack<Integer> input;
+    Stack<Integer> output;
+    public MyQueue() {
+        input = new Stack<>();
+        output = new Stack<>();
+    }
+    public void push(int x) {
+        input.push(x);
+    }
+    public int pop() {
+        peek();
+        return output.pop();
+    }
+    public int peek() {
+        if (output.isEmpty()) {
+            while (!input.isEmpty()) {
+                output.push(input.pop());
+            }
+        }
+        return output.peek();
+    }
+    public boolean empty() {
+        return input.isEmpty() && output.isEmpty();
+    }
+}
+// number of recent calls
+class solution {
+    private Queue<Integer> q;
+    public RecentCounter() {
+        q = new LinkedList<>();
+    }
+    public int ping(int t) {
+        q.offer(t);
+
+        while (q.peek() < t - 3000) {
+            q.poll();
+        }
+        return q.size();
+    }
+}
+// sliding window maximum
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n = nums.length;
+        int[] ans = new int[n - k + 1];
+        Deque<Integer> dq = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+
+            while (!dq.isEmpty() && dq.peekFirst() <= i - k) {
+                dq.pollFirst();
+            }
+
+            while (!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]) {
+                dq.pollLast();
+            }
+            dq.offerLast(i);
+            if (i >= k - 1) {
+                ans[i - k + 1] = nums[dq.peekFirst()];
+            }
+        }
+        return ans;
+    }
+}
